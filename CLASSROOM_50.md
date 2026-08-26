@@ -6,6 +6,8 @@ For each assignment, Classroom 50 will create a **private GitHub repository** fo
 
 You will complete your work locally, commit your changes with `git`, and push those commits to GitHub.
 
+> Before even doing Step 1, make sure you have [Git](https://git-scm.com/install/) installed on your computer. If you use Windows, and during the install it prompts you if you want to enable `Open Git Bash here` and `Open Git GUI here` for the File Explorer context menu, I recommend checking those.
+
 ---
 
 ## Step 1: Create or Log In to Your GitHub Account
