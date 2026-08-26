@@ -3,3 +3,6 @@
 For demonstrating Kotlin before we start into Android Studio, I use [Kotlin Playground](https://play.kotlinlang.org/)
 
 What's kind of nice about Kotlin Playground is you can share a link to code you've written. I have the start of my [Kotlin examples](https://pl.kotl.in/ZVdmnRMGJ) so you can start off with the same things I do. It's mostly comments to guide us through, and after go through all the examples, I will put the finished version in this repo in a separate file, and I will add the link to the completed examples below.
+
+8/26/2026 [Examples](https://pl.kotl.in/x3cBLmp1I)  
+I cleaned the code up a bit from what we did in class.
