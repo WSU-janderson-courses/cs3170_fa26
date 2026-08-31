@@ -6,3 +6,6 @@ What's kind of nice about Kotlin Playground is you can share a link to code you'
 
 8/26/2026 [Examples](https://pl.kotl.in/x3cBLmp1I)  
 I cleaned the code up a bit from what we did in class.
+
+8/28/2026 [Examples](https://pl.kotl.in/Zqr-RBzRC)
+I added examples of mutable lists, concatenating lists, and null safety
