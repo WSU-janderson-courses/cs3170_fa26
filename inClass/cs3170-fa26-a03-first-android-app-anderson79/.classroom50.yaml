@@ -1,0 +1,13 @@
+schema: "classroom50/repo-config/v1"
+classroom: "cs3170-fa26"
+assignment: "a03-first-android-app"
+secret: "0o0hjzyl"
+owner:
+  username: "anderson79"
+  id: 9309886
+  accepted_at: "2026-09-09T16:30:58Z"
+source:
+  owner: "WSU-janderson"
+  owner_id: 226760608
+  repo: "CS3170-first-android-app"
+  branch: "main"
