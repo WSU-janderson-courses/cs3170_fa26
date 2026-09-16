@@ -1,0 +1,13 @@
+schema: "classroom50/repo-config/v1"
+classroom: "cs3170-fa26"
+assignment: "a02-kotlin-practice"
+secret: "0o0hjzyl"
+owner:
+  username: "anderson79"
+  id: 9309886
+  accepted_at: "2026-08-31T17:39:10Z"
+source:
+  owner: "WSU-janderson"
+  owner_id: 226760608
+  repo: "CS3170-kotlin-basics"
+  branch: "main"
