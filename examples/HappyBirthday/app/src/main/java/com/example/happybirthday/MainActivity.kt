@@ -7,6 +7,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -16,6 +17,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -30,7 +33,11 @@ class MainActivity : ComponentActivity() {
         setContent {
             HappyBirthdayTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding -> // innerPadding might be underlined in red, but we can ignore that for now
-
+                    GreetingImage(
+                        message = "Happy Birthday Paris",
+                        from = "From James",
+                        modifier = Modifier.padding(innerPadding)
+                    )
                 }
             }
         }
@@ -47,16 +54,16 @@ fun GreetingText(
     modifier: Modifier = Modifier,
 ) {
 
-    Image(painter = painterResource(id = R.drawable.paris), contentDescription = "Paris")
     Column(
-        verticalArrangement = Arrangement.Center,
+        verticalArrangement = Arrangement.SpaceEvenly,
         modifier = modifier.padding(8.dp)
     ) {
-            Text(
+
+        Text(
                 text = message,
                 fontSize = 100.sp,
                 lineHeight = 116.sp,
-                textAlign = TextAlign.Center
+                textAlign = TextAlign.Center,
             )
 
             Text(
@@ -67,7 +74,39 @@ fun GreetingText(
                     .align(alignment = Alignment.End)
             )
         }
+}
 
+/**
+ * Composable that draws the text over the image, and since they are in a Box we can control
+ * their arrangement
+ */
+@Composable
+fun GreetingImage(
+    from: String,
+    message: String,
+    modifier: Modifier = Modifier
+) {
+    val imageId = R.drawable.paris
+    val image = painterResource(id = imageId)
+
+    Box(
+        contentAlignment = Alignment.Center,
+        modifier = modifier.background(color = Color.LightGray)
+    )
+    {
+        Image(
+            painter = image,
+            contentDescription = "Birthday card background",
+            contentScale = ContentScale.Crop,
+            alpha = 0.4f, // image transparency, or how much image vs. background is shown
+        )
+
+        GreetingText(
+            message = message,
+            from = from,
+            modifier = Modifier.fillMaxSize()
+        )
+    }
 }
 
 /**
@@ -79,9 +118,9 @@ fun GreetingText(
 @Composable
 fun BirthdayCardPreview() {
     HappyBirthdayTheme {
-        GreetingText(
-            message = "Happy Birthday James!",
-            from = "From Paris"
+        GreetingImage(
+            from = "From Paris",
+            message = "Happy Birthday James",
         )
     }
 }
