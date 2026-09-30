@@ -1,5 +1,6 @@
 package com.example.diceroller
 
+import android.annotation.SuppressLint
 import android.content.res.Configuration
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -9,6 +10,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material3.Button
 import androidx.compose.material3.Scaffold
@@ -24,6 +26,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.diceroller.ui.theme.DiceRollerTheme
 
 class MainActivity : ComponentActivity() {
@@ -40,16 +43,54 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+@SuppressLint("RememberReturnType")
 @Composable
 fun DiceRollerApp(modifier: Modifier = Modifier) {
-    Text("DiceRollerApp")
+
+    var rollResult by remember { mutableStateOf(1) }
+    val onButtonClick: () -> Unit = {
+        rollResult = (1..6).random()
+    }
+
+    val currentDie: Int = when(rollResult){
+        1 -> R.drawable.dice_1
+        2 -> R.drawable.dice_2
+        3 -> R.drawable.dice_3
+        4 -> R.drawable.dice_4
+        5 -> R.drawable.dice_5
+        6 -> R.drawable.dice_6
+        else -> R.drawable.dice_1
+    }
+
+    Column(
+        modifier = modifier,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text("DiceRollerApp")
+
+        Image(
+            painter = painterResource(currentDie),
+            contentDescription = "Dice $rollResult"
+        )
+
+        Button(onClick = onButtonClick) {
+            Text(
+                text = "Roll",
+                fontSize = 40.sp)
+        }
+    }
 }
 
 @Preview(showBackground = true)
 @Composable
 fun DiceRollerAppPreview() {
     DiceRollerTheme {
-        DiceRollerApp()
+        DiceRollerApp(
+            // chaining Modifier methods
+            modifier = Modifier
+                .fillMaxSize()
+                .wrapContentSize(Alignment.Center)
+        )
     }
 }
 
