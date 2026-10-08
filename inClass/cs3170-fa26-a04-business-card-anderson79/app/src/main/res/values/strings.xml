@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">BusinessCardSolution</string>
+    <string name="number">123-456-7890</string>
+    <string name="android_logo_description">Business card image</string>
+    <string name="name">James Anderson</string>
+    <string name="title">Computer Science Instructor</string>
+    <string name="social">drinkybird</string>
+    <string name="email">james.anderson@wright.edu</string>
+</resources>

@@ -1,0 +1,13 @@
+schema: "classroom50/repo-config/v1"
+classroom: "cs3170-fa26"
+assignment: "a04-business-card"
+secret: "0o0hjzyl"
+owner:
+  username: "anderson79"
+  id: 9309886
+  accepted_at: "2026-09-16T03:01:51Z"
+source:
+  owner: "WSU-janderson"
+  owner_id: 226760608
+  repo: "CS3170-business-card"
+  branch: "main"
