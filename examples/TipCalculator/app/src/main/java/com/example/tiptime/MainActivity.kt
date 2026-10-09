@@ -28,6 +28,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -62,7 +63,7 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun TipCalculatorApp() {
+fun TipCalculatorApp(modifier: Modifier = Modifier) {
 
     val amountInput = remember{ mutableStateOf("") }
     val onUserType = {newInput: String -> amountInput.value = newInput}
@@ -70,7 +71,7 @@ fun TipCalculatorApp() {
     val tip = calculateTip(amount)
 
     Column(
-        modifier = Modifier
+        modifier = modifier
             .statusBarsPadding()
             .padding(horizontal = 40.dp)
             .safeDrawingPadding(),
@@ -131,6 +132,10 @@ private fun calculateTip(amount: Double, tipPercent: Double = 15.0): String {
 @Composable
 fun TipCalculatorAppPreview() {
     TipTimeTheme {
-        TipCalculatorApp()
+        TipCalculatorApp(
+            modifier = Modifier
+                .fillMaxSize()
+                .wrapContentSize(Alignment.Center)
+        )
     }
 }
