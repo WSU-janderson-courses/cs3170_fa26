@@ -19,8 +19,11 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -29,9 +32,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -39,7 +46,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -66,15 +75,19 @@ class MainActivity : ComponentActivity() {
 fun TipCalculatorApp(modifier: Modifier = Modifier) {
 
     val amountInput = remember{ mutableStateOf("") }
+    val tipInput = remember{ mutableStateOf("") }
+    val roundInput = remember{ mutableStateOf(false)}
     val onUserType = {newInput: String -> amountInput.value = newInput}
     val amount = amountInput.value.toDoubleOrNull() ?: 0.0
-    val tip = calculateTip(amount)
+    val tipPercentage = tipInput.value.toDoubleOrNull() ?: 0.0
+    val tip = calculateTip(amount, tipPercentage, roundInput.value)
 
     Column(
         modifier = modifier
             .statusBarsPadding()
             .padding(horizontal = 40.dp)
-            .safeDrawingPadding(),
+            .safeDrawingPadding()
+            .verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
@@ -88,9 +101,34 @@ fun TipCalculatorApp(modifier: Modifier = Modifier) {
         EditNumberField(
             value = amountInput.value,
             onValueChange = onUserType,
+            labelID = R.string.bill_amount,
+            leadingIconID = R.drawable.money,
+            keyboardOptions = KeyboardOptions.Default.copy(
+                keyboardType = KeyboardType.Number,
+                imeAction = ImeAction.Next,
+            ),
             modifier = Modifier
                 .padding(bottom = 32.dp)
                 .fillMaxWidth()
+        )
+
+        EditNumberField(
+            value = tipInput.value,
+            onValueChange = { newInput: String -> tipInput.value = newInput },
+            labelID = R.string.how_was_the_service,
+            leadingIconID = R.drawable.percent,
+            keyboardOptions = KeyboardOptions.Default.copy(
+                keyboardType = KeyboardType.Number,
+                imeAction = ImeAction.Done,
+            ),
+            modifier = Modifier
+                .padding(bottom = 32.dp)
+                .fillMaxWidth()
+        )
+
+        RoundTheTipRow(
+            checked = roundInput.value,
+            onCheckedChange = {newInput: Boolean -> roundInput.value = newInput}
         )
 
         Text(
@@ -106,16 +144,44 @@ fun TipCalculatorApp(modifier: Modifier = Modifier) {
 fun EditNumberField(
     value: String,
     onValueChange: (String) -> Unit,
+    @StringRes labelID: Int,
+    @DrawableRes leadingIconID: Int,
+    keyboardOptions: KeyboardOptions,
     modifier: Modifier = Modifier
 ) {
     TextField(
         value = value,
         onValueChange = onValueChange,
-        label = { Text(stringResource(R.string.bill_amount)) },
+        label = { Text(stringResource(labelID)) },
+        leadingIcon = {
+            Icon(
+                painter = painterResource(id = leadingIconID),
+                contentDescription = null,
+            )
+        },
         singleLine = true,
-        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+        keyboardOptions = keyboardOptions,
         modifier = modifier
     )
+}
+
+@Composable
+fun RoundTheTipRow(
+    checked: Boolean,
+    onCheckedChange: (Boolean) -> Unit,
+    modifier: Modifier = Modifier) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween,
+        modifier = modifier.fillMaxWidth()
+    ) {
+        Text(text = stringResource(id = R.string.round_the_tip))
+
+        Switch(
+            checked = checked,
+            onCheckedChange = onCheckedChange
+        )
+    }
 }
 
 /**
@@ -123,8 +189,11 @@ fun EditNumberField(
  * according to the local currency.
  * Example would be "$10.00".
  */
-private fun calculateTip(amount: Double, tipPercent: Double = 15.0): String {
-    val tip = tipPercent / 100 * amount
+internal fun calculateTip(amount: Double, tipPercent: Double = 15.0, roundTip: Boolean = false): String {
+    var tip = tipPercent / 100 * amount
+    if (roundTip) {
+        tip = Math.ceil(tip)
+    }
     return NumberFormat.getCurrencyInstance().format(tip)
 }
 
