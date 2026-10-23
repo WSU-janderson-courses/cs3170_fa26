@@ -160,7 +160,7 @@ fun HeroCard(hero: Hero, modifier: Modifier = Modifier) {
             modifier = Modifier
                 .animateContentSize(
                     animationSpec = spring(
-                        dampingRatio = Spring.DampingRatioMediumBouncy,
+                        dampingRatio = Spring.DampingRatioHighBouncy,
                         stiffness = Spring.StiffnessLow
                     )
                 )
@@ -225,7 +225,7 @@ fun HeroImageButton(
 @Composable
 fun SuperHeroesPreview() {
     SuperheroesTheme(
-        darkTheme = false,
+        darkTheme = true,
         dynamicColor = false,
     ) {
         SuperHeroesApp()
