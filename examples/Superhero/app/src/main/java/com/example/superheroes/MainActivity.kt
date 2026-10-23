@@ -225,7 +225,7 @@ fun HeroImageButton(
 @Composable
 fun SuperHeroesPreview() {
     SuperheroesTheme(
-        darkTheme = true,
+        darkTheme = false,
         dynamicColor = false,
     ) {
         SuperHeroesApp()
